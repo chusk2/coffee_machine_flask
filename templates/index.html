@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Flask Coffee Machine</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Dani's Virtual Coffee Machine</h1>
+        <!-- <img src = "{{ url_for('static', filename='./img/coffee_machine.jpg') }}" alt="Coffee Machine">
+        -->
+    </header>
+    <!-- Display messages from the server -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="grid">
+        <!-- Left Column: Menu and Actions -->
+        <div class="card">
+            <h2>Menu</h2>
+            <ul>
+                {% for drink in menu_list %}
+                <li>{{ drink.name }} - Price: ${{ "%.2f"|format(drink.price) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        <div class="card">
+
+            <!-- Action: Insert Coins (Server-Side) -->
+            <form action="{{ url_for('add_coin') }}" method="post" class="coin-form">
+                <h3>Insert Coins</h3>
+
+                <div class="coin-container">
+                    <!-- Each coin is a submit button that sends its value to the server -->
+
+                    <div class="money-item-wrapper">
+                        <button type="submit" name="coin_value" value="0.05" class="coin">
+                            <img src="{{ url_for('static', filename='img/coins/5_cents.png') }}" title = "5 Cents" alt="5 Cents">
+                        </button>
+                        <span class="money-item-title">5 Cents</span>
+                    </div>
+                    <div class="money-item-wrapper">
+                        <button type="submit" name="coin_value" value="0.10" class="coin">
+                            <img src="{{ url_for('static', filename='img/coins/10_cents.png') }}" title="10 Cents" alt="10 Cents">
+                        </button>
+                        <span class="money-item-title">10 Cents</span>
+                    </div>
+                    <div class="money-item-wrapper">
+                        <button type="submit" name="coin_value" value="0.25" class="coin">
+                            <img src="{{ url_for('static', filename='img/coins/25_cents.png') }}" title = "25 Cents" alt="25 Cents">
+                        </button>
+                        <span class="money-item-title">25 Cents</span>
+                    </div>
+                    <div class="money-item-wrapper">
+                        <button type="submit" name="coin_value" value="1.00" class="note">
+                            <img src="{{ url_for('static', filename='img/coins/1_dollar.jpg') }}" title = "1 Dollar" alt="1 US Dollar">
+                        </button>
+                        <span class="money-item-title">1 Dollar</span>
+                    </div>
+
+                </div>
+
+            </form>
+            
+            <!-- This now directly shows the credit stored on the server -->
+            <h2>Your current credit: ${{ "%.2f"|format(user_credit) }}</h2>
+
+            <!-- Action: Return Change -->
+            <form action="{{ url_for('cancel_entry') }}" method="post" style="margin-top: 20px;">
+                 <button type="submit">Discharge entered coins</button>
+            </form>
+        </div>
+
+
+        <div class="card">
+        
+            <!-- Action: Select Drink -->
+            <form action="{{ url_for('select_drink') }}" method="post">
+                <h3>Select a Drink</h3>
+                <select name="drink">
+                    {% for drink in menu_list %}
+                    <option value="{{ drink.name }}">{{ drink.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Order Coffee</button>
+
+            </form>
+
+            
+        </div>
+
+        <!-- Right Column: Machine Status -->
+        <div class="card">
+            <h2>Machine Status</h2>
+            <h4>Resources</h4>
+            <ul>
+                {% for resource, amount in machine.resources.items() %}
+                <li>{{ resource.capitalize() }}: {{ amount }}{% if resource in ['water', 'milk'] %}ml{% else %}g{% endif %}</li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <h4>Maintenance</h4>
+            <form action="{{ url_for('refill') }}" method="post" class="maintenance-form">
+                <button type="submit">Refill Resources</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
