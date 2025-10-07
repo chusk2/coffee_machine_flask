@@ -97,13 +97,7 @@ class CoffeeMachine:
         price = coffee.price
 
         if self.user_credit < coffee.price:
-            message = 'The introduced money amount is insufficient.\n'
-            message += f'Your selected coffee ({coffee.name}) price is ${coffee.price}\n'
-            message += f'You have to introduce \
-                  ${self.user_credit - coffee.price} \
-                    more to get your {coffee.name}, please.'
-            return message
-        
+            return False
         else:
             return True
     
