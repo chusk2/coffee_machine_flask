@@ -47,7 +47,10 @@ h1, h2 { color: #333; }
     margin-bottom: 20px;
 }
 
-.messages p { margin: 0; }
+.messages p {
+    margin: 0;
+    white-space: pre-wrap; /* This will respect newlines (\n) in the text */
+}
 
 ul {
     list-style-type: none;

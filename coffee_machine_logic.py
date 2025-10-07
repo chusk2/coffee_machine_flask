@@ -1,3 +1,5 @@
+from textwrap import dedent
+
 class Coffee:
 
     def __init__(self, name: str, price: float, recipe: dict,
@@ -70,13 +72,13 @@ class CoffeeMachine:
     ## Private methods
     def _coffee_not_available(self, coffee):
               
-        message = f'''The selected coffee ({coffee.name}) is\
-                currently not available!
-
-                Sorry for the inconvenience.
-
-                Here is the money you entered: ${self.user_credit:.2f}'''
-        
+        message = dedent(f"""
+            The selected coffee ({coffee.name}) is currently not available!
+    
+            Sorry for the inconvenience.
+    
+            Here is the money you entered: ${self.user_credit:.2f}
+        """).strip()
         return message        
     
     def _check_resources(self, coffee : str):
@@ -122,21 +124,21 @@ class CoffeeMachine:
         
         ## CHECK THE PAYMENT
         if not self._payment_ok(coffee):
-            message = f'''Your introduced money is insufficient for your current coffee selection.
-            {coffee.name} price is ${coffee.price:.2f}.
-            You have to introduce ${coffee.price - self.user_credit:.2f} more to get your {coffee.name}, please.')
-            '''
+            message = dedent(f"""
+                Your introduced money is insufficient for your current coffee selection.
+                {coffee.name} price is ${coffee.price:.2f}.
+                You have to introduce ${coffee.price - self.user_credit:.2f} more to get your {coffee.name}, please.
+            """).strip()
             return message
         
         ## CHECK RESOURCES
         if not self._check_resources(coffee):
             self.user_credit = 0
 
-            messsage = f'''We are sorry for the inconvenience.
-            Currently the machine has insufficient resources to brew your coffee.
-            Transaction canceled.
-
-            Here you have your money: ${self.user_credit:.2f}'''
+            message = dedent(f"""
+                We are sorry for the inconvenience. Currently the machine has insufficient resources to brew your coffee. Transaction canceled.
+                Here you have your money: ${self.user_credit:.2f}
+            """).strip()
             
             return message
         
@@ -150,10 +152,13 @@ class CoffeeMachine:
         ## RETURN CHANGE, IF ANY
         change = self.return_change(coffee)
 
-        message = f'\n\nEnjoy your {coffee.name}!\nHave a nice day and hope to see you soon!'
+        message = dedent(f"""
+            Enjoy your {coffee.name}!
+            Have a nice day and hope to see you soon!
+        """).strip()
         
         if change > 0:
-            message = f'\nHere is your change: ${change:.2f}' + message
+            message = f'Here is your change: ${change:.2f}\n\n' + message
         
         return message
     
