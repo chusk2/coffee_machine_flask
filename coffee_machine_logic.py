@@ -44,6 +44,7 @@ class CoffeeMachine:
 
         self.menu = menu
         self.max_resources = max_resources
+        # create a copy of the max_resources to track current resources
         self.resources = self.max_resources.copy()
         self.machine_credit = machine_credit
         # attribute to store the current transaction balance
@@ -74,7 +75,7 @@ class CoffeeMachine:
 
                 Sorry for the inconvenience.
 
-                Returned money: ${self.user_credit:.2f}'''
+                Here is the money you entered: ${self.user_credit:.2f}'''
         
         return message        
     

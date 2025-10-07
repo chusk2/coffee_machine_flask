@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from coffee_machine_business_logic import CoffeeMachine, Espresso, Latte, Cappuccino
+from coffee_machine_logic import CoffeeMachine, Espresso, Latte, Cappuccino
 
 app = Flask(__name__)
 
