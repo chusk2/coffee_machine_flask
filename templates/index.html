@@ -13,11 +13,14 @@
 <body>
 
 <div class="container">
+
     <header>
         <h1>Dani's Virtual Coffee Machine</h1>
-        <!-- <img src = "{{ url_for('static', filename='./img/coffee_machine.jpg') }}" alt="Coffee Machine">
-        -->
+        <img src = "{{ url_for('static', filename='./img/coffee_machine.jpg') }}" alt="Coffee Machine">
     </header>
+
+    <div class="clearfix"></div>
+
     <!-- Display messages from the server -->
     {% if messages %}
     <div class="messages">
@@ -27,85 +30,85 @@
     </div>
     {% endif %}
 
-    <div class="grid">
-        <!-- Left Column: Menu and Actions -->
-        <div class="card">
-            <h2>Menu</h2>
-            <ul>
-                {% for drink in menu_list %}
-                <li>{{ drink.name }} - Price: ${{ "%.2f"|format(drink.price) }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-
-
-        <div class="card">
-
-            <!-- Action: Insert Coins (Server-Side) -->
-            <form action="{{ url_for('add_coin') }}" method="post" class="coin-form">
-                <h3>Insert Coins</h3>
-
-                <div class="coin-container">
-                    <!-- Each coin is a submit button that sends its value to the server -->
-
-                    <div class="money-item-wrapper">
-                        <button type="submit" name="coin_value" value="0.05" class="coin">
-                            <img src="{{ url_for('static', filename='img/coins/5_cents.png') }}" title = "5 Cents" alt="5 Cents">
-                        </button>
-                        <span class="money-item-title">5 Cents</span>
-                    </div>
-                    <div class="money-item-wrapper">
-                        <button type="submit" name="coin_value" value="0.10" class="coin">
-                            <img src="{{ url_for('static', filename='img/coins/10_cents.png') }}" title="10 Cents" alt="10 Cents">
-                        </button>
-                        <span class="money-item-title">10 Cents</span>
-                    </div>
-                    <div class="money-item-wrapper">
-                        <button type="submit" name="coin_value" value="0.25" class="coin">
-                            <img src="{{ url_for('static', filename='img/coins/25_cents.png') }}" title = "25 Cents" alt="25 Cents">
-                        </button>
-                        <span class="money-item-title">25 Cents</span>
-                    </div>
-                    <div class="money-item-wrapper">
-                        <button type="submit" name="coin_value" value="1.00" class="note">
-                            <img src="{{ url_for('static', filename='img/coins/1_dollar.jpg') }}" title = "1 Dollar" alt="1 US Dollar">
-                        </button>
-                        <span class="money-item-title">1 Dollar</span>
-                    </div>
-
-                </div>
-
-            </form>
-            
-            <!-- This now directly shows the credit stored on the server -->
-            <h2>Your current credit: ${{ "%.2f"|format(user_credit) }}</h2>
-
-            <!-- Action: Return Change -->
-            <form action="{{ url_for('cancel_entry') }}" method="post" style="margin-top: 20px;">
-                 <button type="submit">Discharge entered coins</button>
-            </form>
-        </div>
-
-
-        <div class="card">
-        
-            <!-- Action: Select Drink -->
-            <form action="{{ url_for('select_drink') }}" method="post">
-                <h3>Select a Drink</h3>
-                <select name="drink">
+    <div class = "left-column">
+        <div id='menu' class="card">
+            <!-- Left Column: Menu and Actions -->
+                <h2>Menu</h2>
+                <ul>
                     {% for drink in menu_list %}
-                    <option value="{{ drink.name }}">{{ drink.name }}</option>
+                    <li>{{ drink.name }} - Price: ${{ "%.2f"|format(drink.price) }}</li>
                     {% endfor %}
-                </select>
-
-                <button type="submit">Order Coffee</button>
-
-            </form>
-
-            
+                </ul>
         </div>
 
-        <!-- Right Column: Machine Status -->
+        <div id="select-coffee" class="card">
+            
+                <!-- Action: Select Drink -->
+                <form action="{{ url_for('select_drink') }}" method="post">
+                    <h2>Select a Drink</h2>
+                    <select name="drink">
+                        {% for drink in menu_list %}
+                        <option value="{{ drink.name }}">{{ drink.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit">Order Coffee</button>
+
+                </form>
+                
+        </div>
+    </div>
+
+    <div class = "right-column">
+
+
+        <div id='insert-coins' class="card">
+
+                <!-- Action: Insert Coins (Server-Side) -->
+                <form action="{{ url_for('add_coin') }}" method="post" class="coin-form">
+                    <h2>Insert Coins</h2>
+
+                    <div class="coin-container">
+                        <!-- Each coin is a submit button that sends its value to the server -->
+
+                        <div class="money-item-wrapper">
+                            <button type="submit" name="coin_value" value="0.05" class="coin">
+                                <img src="{{ url_for('static', filename='img/coins/5_cents.png') }}" title = "5 Cents" alt="5 Cents">
+                            </button>
+                            <span class="money-item-title">5 Cents</span>
+                        </div>
+                        <div class="money-item-wrapper">
+                            <button type="submit" name="coin_value" value="0.10" class="coin">
+                                <img src="{{ url_for('static', filename='img/coins/10_cents.png') }}" title="10 Cents" alt="10 Cents">
+                            </button>
+                            <span class="money-item-title">10 Cents</span>
+                        </div>
+                        <div class="money-item-wrapper">
+                            <button type="submit" name="coin_value" value="0.25" class="coin">
+                                <img src="{{ url_for('static', filename='img/coins/25_cents.png') }}" title = "25 Cents" alt="25 Cents">
+                            </button>
+                            <span class="money-item-title">25 Cents</span>
+                        </div>
+                        <div class="money-item-wrapper">
+                            <button type="submit" name="coin_value" value="1.00" class="note">
+                                <img src="{{ url_for('static', filename='img/coins/1_dollar.jpg') }}" title = "1 Dollar" alt="1 US Dollar">
+                            </button>
+                            <span class="money-item-title">1 Dollar</span>
+                        </div>
+
+                    </div>
+
+                </form>
+                
+                <!-- This now directly shows the credit stored on the server -->
+                <h2>Your current credit: ${{ "%.2f"|format(user_credit) }}</h2>
+
+                <!-- Action: Return Change -->
+                <form action="{{ url_for('cancel_entry') }}" method="post" style="margin-top: 20px;">
+                    <button type="submit">Discharge entered coins</button>
+                </form>
+        </div>
+
         <div class="card">
             <h2>Machine Status</h2>
             <h4>Resources</h4>
@@ -121,7 +124,8 @@
             </form>
         </div>
     </div>
-</div>
+
+</div> <!-- Close container div-->
 
 </body>
 </html>
